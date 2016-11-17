@@ -62,12 +62,6 @@ if sys.argv[1:] and '-h' not in sys.argv[1:] and '--help' not in sys.argv[1:]:
     player.set_media(media)
     player.play()
 
-    # Some marquee examples.  Marquee requires '--sub-source marq' in the
-    # Instance() call above, see <http://www.videolan.org/doc/play-howto/en/ch04.html>
-    player.video_set_marquee_int(VideoMarqueeOption.Size, 14)  # pixels
-    player.video_set_marquee_int(VideoMarqueeOption.marquee_X, 15)
-    player.video_set_marquee_int(VideoMarqueeOption.marquee_Y, 15)
-
     # Some event manager examples.  Note, the callback can be any Python
     # callable and does not need to be decorated.  Optionally, specify
     # any number of positional and/or keyword arguments to be passed
@@ -190,6 +184,12 @@ if sys.argv[1:] and '-h' not in sys.argv[1:] and '--help' not in sys.argv[1:]:
         'q': quit_app,
         '?': print_help
         }
+
+    # Some marquee examples.  Marquee requires '--sub-source marq' in the
+    # Instance() call above, see <http://www.videolan.org/doc/play-howto/en/ch04.html>
+    player.video_set_marquee_int(VideoMarqueeOption.Size, 14)  # pixels
+    player.video_set_marquee_int(VideoMarqueeOption.marquee_X, 15)
+    player.video_set_marquee_int(VideoMarqueeOption.marquee_Y, 15)
 
     # Wow very shit solution with threading
     # but hey :>
