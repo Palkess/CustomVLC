@@ -7647,7 +7647,7 @@ if __name__ == '__main__':
         # Some marquee examples.  Marquee requires '--sub-source marq' in the
         # Instance() call above, see <http://www.videolan.org/doc/play-howto/en/ch04.html>
         #player.video_set_marquee_int(VideoMarqueeOption.Enable, 1)
-        player.video_set_marquee_int(VideoMarqueeOption.Size, 24)  # pixels
+        player.video_set_marquee_int(VideoMarqueeOption.Size, 14)  # pixels
         player.video_set_marquee_int(VideoMarqueeOption.marquee_X, 15)
         player.video_set_marquee_int(VideoMarqueeOption.marquee_Y, 15)
         #VideoMarqueeOption.marquee_X = VideoMarqueeOption(8)
@@ -7764,6 +7764,14 @@ if __name__ == '__main__':
 
         def set_playbacktime():
             """Asks for what time to set playback to"""
+            set_hours = input('Enter hours: ')
+            set_minutes = input('Enter minutes: ')
+
+            set_hours = ((set_hours * 60) * 60) * 1000
+            set_minutes = (set_minutes * 60) * 1000
+
+            # Sets the time in milliseconds
+            player.set_time(set_hours + set_minutes)
 
 
         keybindings = {
