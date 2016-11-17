@@ -8,7 +8,7 @@ A custom VLC player for my own needs
 
 ## Usage  
 ```sh
-$ python vlc.py <MEDIA_FILE>
+$ python main.py <MEDIA_FILE>
 ```
 
 ## TODO
