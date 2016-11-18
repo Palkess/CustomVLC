@@ -130,6 +130,9 @@ if sys.argv[1:] and '-h' not in sys.argv[1:] and '--help' not in sys.argv[1:]:
     def calcDuration():
         """Calculates the current time in video and duration"""
 
+        # This solution makes it lag a tad
+        # Sometimes it skips seconds
+        # TODO
         while calcActive:
             dur_hours = ((media.get_duration() / 1000) / 60) / 60
             dur_minutes = (((media.get_duration() / 1000) / 60) - (dur_hours * 60))
@@ -137,8 +140,9 @@ if sys.argv[1:] and '-h' not in sys.argv[1:] and '--help' not in sys.argv[1:]:
 
             cur_hours = ((player.get_time() / 1000) / 60) / 60
             cur_minutes = ((player.get_time() / 1000) / 60) - (cur_hours * 60)
-            cur_seconds = (player.get_time() / 1000) - (((cur_hours * 60) * 60) + (cur_minutes * 60))
+            cur_seconds = round((player.get_time() / 1000) - (((cur_hours * 60) * 60) + (cur_minutes * 60)))
 
+            # Formatting to make it look consistent
             if dur_hours < 10:
                 dur_hours = "0" + str(dur_hours)
             if dur_minutes < 10:
@@ -157,7 +161,7 @@ if sys.argv[1:] and '-h' not in sys.argv[1:] and '--help' not in sys.argv[1:]:
             mTime = "%s:%s:%s / %s:%s:%s" % (cur_hours, cur_minutes, cur_seconds, dur_hours, dur_minutes, dur_seconds)
 
             player.video_set_marquee_string(VideoMarqueeOption.Text, mTime)
-            time.sleep(1)
+
 
     def set_playbacktime():
         """Asks for what time to set playback to"""
