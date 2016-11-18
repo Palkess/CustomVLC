@@ -140,7 +140,7 @@ if sys.argv[1:] and '-h' not in sys.argv[1:] and '--help' not in sys.argv[1:]:
 
             cur_hours = ((player.get_time() / 1000) / 60) / 60
             cur_minutes = ((player.get_time() / 1000) / 60) - (cur_hours * 60)
-            cur_seconds = round((player.get_time() / 1000) - (((cur_hours * 60) * 60) + (cur_minutes * 60)))
+            cur_seconds = (player.get_time() / 1000) - (((cur_hours * 60) * 60) + (cur_minutes * 60))
 
             # Formatting to make it look consistent
             if dur_hours < 10:
@@ -174,9 +174,21 @@ if sys.argv[1:] and '-h' not in sys.argv[1:] and '--help' not in sys.argv[1:]:
         # Sets the time in milliseconds
         player.set_time(set_hours + set_minutes)
 
+    def decrease_volume():
+        """Decreases the volume by 10%"""
+        player.audio_set_volume(player.audio_get_volume() - 10)
+        print("Volume: %s" % (str(player.audio_get_volume()) + "%"))
+
+    def increase_volume():
+        """Increases the volume by 10%"""
+        player.audio_set_volume(player.audio_get_volume() + 10)
+        print("Volume: %s" % (str(player.audio_get_volume()) + "%"))
+
 
     keybindings = {
         ' ': player.pause,
+        'z': decrease_volume,
+        'x': increase_volume,
         '+': sec_forward,
         '-': sec_backward,
         't': set_playbacktime,
@@ -186,7 +198,7 @@ if sys.argv[1:] and '-h' not in sys.argv[1:] and '--help' not in sys.argv[1:]:
         'i': print_info,
         'p': toggle_echo_position,
         'q': quit_app,
-        '?': print_help
+        'h': print_help
         }
 
     # Some marquee examples.  Marquee requires '--sub-source marq' in the
