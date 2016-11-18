@@ -127,40 +127,54 @@ if sys.argv[1:] and '-h' not in sys.argv[1:] and '--help' not in sys.argv[1:]:
         echo_position = not echo_position
 
     calcActive = True
+    showDuration = True
     def calcDuration():
         """Calculates the current time in video and duration"""
 
-        # This solution makes it lag a tad
-        # Sometimes it skips seconds
-        # TODO
         while calcActive:
-            dur_hours = ((media.get_duration() / 1000) / 60) / 60
-            dur_minutes = (((media.get_duration() / 1000) / 60) - (dur_hours * 60))
-            dur_seconds = (media.get_duration() / 1000) - (((dur_hours * 60) * 60) + (dur_minutes * 60))
+            # This solution makes it lag a tad
+            # Sometimes it skips seconds
+            # TODO
+            if showDuration:
+                dur_hours = ((media.get_duration() / 1000) / 60) / 60
+                dur_minutes = (((media.get_duration() / 1000) / 60) - (dur_hours * 60))
+                dur_seconds = (media.get_duration() / 1000) - (((dur_hours * 60) * 60) + (dur_minutes * 60))
 
-            cur_hours = ((player.get_time() / 1000) / 60) / 60
-            cur_minutes = ((player.get_time() / 1000) / 60) - (cur_hours * 60)
-            cur_seconds = (player.get_time() / 1000) - (((cur_hours * 60) * 60) + (cur_minutes * 60))
+                cur_hours = ((player.get_time() / 1000) / 60) / 60
+                cur_minutes = ((player.get_time() / 1000) / 60) - (cur_hours * 60)
+                cur_seconds = (player.get_time() / 1000) - (((cur_hours * 60) * 60) + (cur_minutes * 60))
 
-            # Formatting to make it look consistent
-            if dur_hours < 10:
-                dur_hours = "0" + str(dur_hours)
-            if dur_minutes < 10:
-                dur_minutes = "0" + str(dur_minutes)
+                # Formatting to make it look consistent
+                if dur_hours < 10:
+                    dur_hours = "0" + str(dur_hours)
+                if dur_minutes < 10:
+                    dur_minutes = "0" + str(dur_minutes)
 
-            if dur_seconds < 10:
-                dur_seconds = "0" + str(dur_seconds)
+                if dur_seconds < 10:
+                    dur_seconds = "0" + str(dur_seconds)
 
-            if cur_hours < 10:
-                cur_hours = "0" + str(cur_hours)
-            if cur_minutes < 10:
-                cur_minutes = "0" + str(cur_minutes)
-            if cur_seconds < 10:
-                cur_seconds = "0" + str(cur_seconds)
+                if cur_hours < 10:
+                    cur_hours = "0" + str(cur_hours)
+                if cur_minutes < 10:
+                    cur_minutes = "0" + str(cur_minutes)
+                if cur_seconds < 10:
+                    cur_seconds = "0" + str(cur_seconds)
 
-            mTime = "%s:%s:%s / %s:%s:%s" % (cur_hours, cur_minutes, cur_seconds, dur_hours, dur_minutes, dur_seconds)
+                mTime = "%s:%s:%s / %s:%s:%s" % (cur_hours, cur_minutes, cur_seconds, dur_hours, dur_minutes, dur_seconds)
 
-            player.video_set_marquee_string(VideoMarqueeOption.Text, mTime)
+                player.video_set_marquee_string(VideoMarqueeOption.Text, mTime)
+
+    def toggle_duration():
+        """Toggles the duration displayed"""
+        global showDuration
+        if showDuration:
+            showDuration = False
+            # It only remove the text sometimes
+            # Hmm
+            # TODO
+            player.video_set_marquee_string(VideoMarqueeOption.Text, None)
+        else:
+            showDuration = True
 
 
     def set_playbacktime():
@@ -186,6 +200,7 @@ if sys.argv[1:] and '-h' not in sys.argv[1:] and '--help' not in sys.argv[1:]:
 
 
     keybindings = {
+    # Player settings
         ' ': player.pause,
         'z': decrease_volume,
         'x': increase_volume,
@@ -195,8 +210,11 @@ if sys.argv[1:] and '-h' not in sys.argv[1:] and '--help' not in sys.argv[1:]:
         '.': frame_forward,
         ',': frame_backward,
         'f': player.toggle_fullscreen,
+        'd': toggle_duration,
+    # Other settings
         'i': print_info,
         'p': toggle_echo_position,
+    # App settings
         'q': quit_app,
         'h': print_help
         }
@@ -212,7 +230,7 @@ if sys.argv[1:] and '-h' not in sys.argv[1:] and '--help' not in sys.argv[1:]:
     mThread = Thread(target=calcDuration)
     mThread.start()
 
-    print('Press q to quit, ? to get help.%s' % os.linesep)
+    print('Press q to quit, h to get help.%s' % os.linesep)
     while True:
         k = getch()
         print('> %s' % k)
